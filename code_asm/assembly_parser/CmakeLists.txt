@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.22)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out)
+
+project(assembly_parser VERSION 1.0)
+
+file(GLOB SOURCES "src/main/*.cpp" "src/main/*/*.cpp")
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_executable(assembly_parser ${SOURCES})
+
+target_include_directories(assembly_parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
