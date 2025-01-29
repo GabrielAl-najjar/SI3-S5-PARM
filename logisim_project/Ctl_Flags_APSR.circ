@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project source="3.8.0" version="1.0">
-  This file is intended to be loaded by Logisim-evolution v3.8.0(https://github.com/logisim-evolution/).
+<project source="3.9.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v3.9.0(https://github.com/logisim-evolution/).
 
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
@@ -153,48 +153,51 @@ end TCL_Generic;
     <a name="appearance" val="logisim_evolution"/>
     <a name="circuit" val="Flags_APSR"/>
     <a name="simulationFrequency" val="1.0"/>
-    <comp lib="0" loc="(160,160)" name="Pin">
+    <comp lib="0" loc="(150,290)" name="Pin">
       <a name="appearance" val="classic"/>
       <a name="label" val="Flags_In"/>
       <a name="width" val="4"/>
     </comp>
-    <comp lib="0" loc="(190,160)" name="Splitter">
-      <a name="fanout" val="4"/>
-      <a name="incoming" val="4"/>
-    </comp>
-    <comp lib="0" loc="(210,120)" name="Tunnel">
-      <a name="facing" val="south"/>
-      <a name="label" val="D0"/>
-    </comp>
-    <comp lib="0" loc="(210,140)" name="Tunnel">
-      <a name="label" val="D2"/>
-    </comp>
-    <comp lib="0" loc="(210,150)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="label" val="D3"/>
-    </comp>
-    <comp lib="0" loc="(240,320)" name="Pin">
+    <comp lib="0" loc="(180,170)" name="Pin">
       <a name="appearance" val="classic"/>
       <a name="label" val="Update_Mask"/>
       <a name="width" val="4"/>
     </comp>
-    <comp lib="0" loc="(250,130)" name="Tunnel">
-      <a name="label" val="D1"/>
-    </comp>
-    <comp lib="0" loc="(250,320)" name="Splitter">
+    <comp lib="0" loc="(180,290)" name="Splitter">
       <a name="fanout" val="4"/>
       <a name="incoming" val="4"/>
     </comp>
-    <comp lib="0" loc="(270,280)" name="Tunnel">
+    <comp lib="0" loc="(190,170)" name="Splitter">
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
+    </comp>
+    <comp lib="0" loc="(200,250)" name="Tunnel">
+      <a name="facing" val="south"/>
+      <a name="label" val="D0"/>
+    </comp>
+    <comp lib="0" loc="(200,270)" name="Tunnel">
+      <a name="label" val="D2"/>
+    </comp>
+    <comp lib="0" loc="(200,280)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="D3"/>
+    </comp>
+    <comp lib="0" loc="(210,130)" name="Tunnel">
       <a name="facing" val="south"/>
       <a name="label" val="M0"/>
     </comp>
-    <comp lib="0" loc="(270,300)" name="Tunnel">
+    <comp lib="0" loc="(210,150)" name="Tunnel">
       <a name="label" val="M2"/>
     </comp>
-    <comp lib="0" loc="(270,310)" name="Tunnel">
+    <comp lib="0" loc="(210,160)" name="Tunnel">
       <a name="facing" val="north"/>
       <a name="label" val="M3"/>
+    </comp>
+    <comp lib="0" loc="(240,140)" name="Tunnel">
+      <a name="label" val="M1"/>
+    </comp>
+    <comp lib="0" loc="(240,260)" name="Tunnel">
+      <a name="label" val="D1"/>
     </comp>
     <comp lib="0" loc="(290,420)" name="Pin">
       <a name="appearance" val="classic"/>
@@ -209,9 +212,6 @@ end TCL_Generic;
     </comp>
     <comp lib="0" loc="(290,470)" name="Tunnel">
       <a name="label" val="Rst"/>
-    </comp>
-    <comp lib="0" loc="(300,290)" name="Tunnel">
-      <a name="label" val="M1"/>
     </comp>
     <comp lib="0" loc="(410,220)" name="Tunnel">
       <a name="facing" val="south"/>
@@ -341,10 +341,10 @@ end TCL_Generic;
       <a name="label" val="R1"/>
       <a name="width" val="1"/>
     </comp>
-    <wire from="(160,160)" to="(190,160)"/>
-    <wire from="(210,130)" to="(250,130)"/>
-    <wire from="(240,320)" to="(250,320)"/>
-    <wire from="(270,290)" to="(300,290)"/>
+    <wire from="(150,290)" to="(180,290)"/>
+    <wire from="(180,170)" to="(190,170)"/>
+    <wire from="(200,260)" to="(240,260)"/>
+    <wire from="(210,140)" to="(240,140)"/>
     <wire from="(410,220)" to="(460,220)"/>
     <wire from="(470,90)" to="(540,90)"/>
     <wire from="(490,260)" to="(490,270)"/>

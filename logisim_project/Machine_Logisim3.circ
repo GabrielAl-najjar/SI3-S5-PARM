@@ -163,13 +163,13 @@ end TCL_Generic;
   <lib desc="#BFH-Praktika" name="9"/>
   <lib desc="#Input/Output-Extra" name="10"/>
   <lib desc="#TTL" name="11"/>
-  <lib desc="file#BancDeRegistres.circ" name="12"/>
-  <lib desc="file#Controller.circ" name="13"/>
-  <lib desc="file#ALU.circ" name="14">
+  <lib desc="file#Controller.circ" name="12"/>
+  <lib desc="file#ALU.circ" name="13">
     <tool name="ALU">
       <a name="facing" val="east"/>
     </tool>
   </lib>
+  <lib desc="file#BancDeRegistres.circ" name="14"/>
   <main name="Facade"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
@@ -2494,14 +2494,14 @@ end TCL_Generic;
       <a name="facing" val="north"/>
       <a name="label" val="Imm32_Enable"/>
     </comp>
-    <comp lib="12" loc="(990,170)" name="BancRegistre">
-      <a name="label" val="Regs_1"/>
-    </comp>
-    <comp lib="13" loc="(530,390)" name="Controller">
+    <comp lib="12" loc="(530,390)" name="Controller">
       <a name="label" val="Controller_1"/>
     </comp>
-    <comp lib="14" loc="(860,450)" name="ALU">
+    <comp lib="13" loc="(860,450)" name="ALU">
       <a name="label" val="ALU_1"/>
+    </comp>
+    <comp lib="14" loc="(990,170)" name="BancRegistre">
+      <a name="label" val="Regs_1"/>
     </comp>
     <comp lib="2" loc="(1010,940)" name="Multiplexer">
       <a name="width" val="32"/>
@@ -2611,10 +2611,13 @@ end TCL_Generic;
     <wire from="(830,450)" to="(830,460)"/>
     <wire from="(830,80)" to="(830,160)"/>
     <wire from="(840,460)" to="(840,500)"/>
+    <wire from="(850,40)" to="(860,40)"/>
     <wire from="(850,50)" to="(850,160)"/>
+    <wire from="(860,40)" to="(860,50)"/>
     <wire from="(860,470)" to="(860,520)"/>
+    <wire from="(860,50)" to="(870,50)"/>
     <wire from="(870,250)" to="(870,270)"/>
-    <wire from="(870,40)" to="(870,160)"/>
+    <wire from="(870,50)" to="(870,160)"/>
     <wire from="(880,700)" to="(890,700)"/>
     <wire from="(890,400)" to="(890,430)"/>
     <wire from="(890,450)" to="(890,500)"/>
