@@ -73,6 +73,7 @@ string AssemblyUtils::getCondition(string condition)
             return getImmediate(to_string(i), 4);
         }
     }
+    throw new runtime_error("Condition not found");
 }
 
 string AssemblyUtils::getLabelAdress(string label, map<string, tuple<string, string>> labelsToAdress, int bits)
@@ -87,10 +88,7 @@ string AssemblyUtils::getLabelAdress(string label, map<string, tuple<string, str
     string instructionAdress = get<0>(labelsToAdress[label]);
     int labelAdressInt = atoi(labelAdress.c_str());
     int instructionAdressInt = atoi(instructionAdress.c_str());
-    cout << "Label adress : " << labelAdressInt << endl;
-    cout << "Instruction adress : " << instructionAdressInt << endl;
     int result = labelAdressInt - instructionAdressInt - 3;
-    cout << "Result : " << result << endl;
     return getComplementTo2(result, bits);
 }
 
@@ -211,6 +209,6 @@ string AssemblyUtils::getComplementTo2(int number, int bits)
     }
     else
     {
-        return getImmediate(to_string(number), 8);
+        return getImmediate(to_string(number), bits);
     }
 }

@@ -248,7 +248,6 @@ string AssemblyFunctions::bc(vector<string> expression)
 {
     string condition = AssemblyUtils::getCondition(expression[0]);
     string imm8 = AssemblyUtils::getLabelAdress(expression[1], AssemblyFunctions::getLabelsToAdress(), 8);
-    cout << imm8 << endl;
     return "1101" + condition + imm8;
 }
 
