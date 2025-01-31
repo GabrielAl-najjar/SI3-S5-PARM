@@ -6,14 +6,14 @@
 
 using namespace std;
 
-map<string, tuple<string, string>> AssemblyFunctions::labelsToAdress;
+map<string, tuple<string, vector<string>>> AssemblyFunctions::labelsToAdress;
 
-map<string, tuple<string, string>> AssemblyFunctions::getLabelsToAdress()
+map<string, tuple<string, vector<string>>> AssemblyFunctions::getLabelsToAdress()
 {
     return AssemblyFunctions::labelsToAdress;
 }
 
-void AssemblyFunctions::setLabelsToAdress(map<string, tuple<string, string>> labels)
+void AssemblyFunctions::setLabelsToAdress(map<string, tuple<string, vector<string>>> labels)
 {
     AssemblyFunctions::labelsToAdress = labels;
 }
@@ -216,18 +216,34 @@ string AssemblyFunctions::mvns_register(vector<string> expression)
 
 string AssemblyFunctions::str_reg(vector<string> expression)
 {
-    int offset = stoi(expression[3].substr(1,1)) / 4;
     string rt = AssemblyUtils::getRegister(expression[1]);
-    string imm8 = AssemblyUtils::getImmediate(to_string(offset), 8);
-    return "10010" + rt + imm8;
+    if(AssemblyUtils::isImmediate(expression))
+    {
+        int offset = stoi(expression[3].substr(1,expression[3].length() - 1)) / 4;
+        string imm8 = AssemblyUtils::getImmediate(to_string(offset), 8);
+        return "10010" + rt + imm8;
+    }
+    else
+    {
+        string imm8 = "00000000";
+        return "10010" + rt + imm8;
+    }
 }
 
 string AssemblyFunctions::ldr_reg(vector<string> expression)
 {
-    int offset = stoi(expression[3].substr(1,1)) / 4;
     string rt = AssemblyUtils::getRegister(expression[1]);
-    string imm8 = AssemblyUtils::getImmediate(to_string(offset), 8);
-    return "10011" + rt + imm8;
+    if(AssemblyUtils::isImmediate(expression))
+    {
+        int offset = stoi(expression[3].substr(1, expression[3].length() - 1)) / 4;
+        string imm8 = AssemblyUtils::getImmediate(to_string(offset), 8);
+        return "10011" + rt + imm8;
+    }
+    else
+    {
+        string imm8 = "00000000";
+        return "10011" + rt + imm8;
+    }
 }
 
 string AssemblyFunctions::add_sp(vector<string> expression)
@@ -244,15 +260,15 @@ string AssemblyFunctions::sub_sp(vector<string> expression)
     return "101100001" + imm7;
 }
 
-string AssemblyFunctions::bc(vector<string> expression)
+string AssemblyFunctions::bc(vector<string> expression, int index)
 {
     string condition = AssemblyUtils::getCondition(expression[0]);
-    string imm8 = AssemblyUtils::getLabelAdress(expression[1], AssemblyFunctions::getLabelsToAdress(), 8);
+    string imm8 = AssemblyUtils::getLabelAdress(expression[1], index, AssemblyFunctions::getLabelsToAdress(), 8);
     return "1101" + condition + imm8;
 }
 
-string AssemblyFunctions::b(vector<string> expression)
+string AssemblyFunctions::b(vector<string> expression, int index)
 {
-    string imm11 = AssemblyUtils::getLabelAdress(expression[1], AssemblyFunctions::getLabelsToAdress(), 11);
+    string imm11 = AssemblyUtils::getLabelAdress(expression[1], index, AssemblyFunctions::getLabelsToAdress(), 11);
     return "11100" + imm11;
 }

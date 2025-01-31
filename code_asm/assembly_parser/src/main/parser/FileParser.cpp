@@ -31,17 +31,21 @@ vector<string> FileParser::parseImportantLines()
     while (fgets(line, sizeof(line), this->file))
     {
         string strLine = line;
-
-        if(strLine.find("run:") != string::npos || strLine.find("data:") != string::npos || strLine.find("text:") != string::npos)
+        strLine = regex_replace(strLine, regex("^\\s+"), "");
+        
+        if(strLine.find(".") != string::npos && strLine.at(0) != 'b' && strLine.find(":") == string::npos)
         {
-            break;
+            continue;
+        }
+        if(strLine.find("run:") != string::npos || strLine.find("data:") != string::npos || strLine.find("text") != string::npos)
+        {
+            continue;
         }
 
         // Remove new line character
         strLine.erase(remove(strLine.begin(), strLine.end(), '\n'), strLine.end());
-
         // Check if the line contains a label
-        if (strLine.find(':') != string::npos)
+        if (regex_search(strLine, regex(":")))
         {
             lines.push_back(strLine);
             string key = strLine.substr(0, strLine.find(":"));
@@ -49,35 +53,34 @@ vector<string> FileParser::parseImportantLines()
             
             if(labelsToAdress.find(key) == labelsToAdress.end())
             {
-                // Left is the declaration adress, right is the declaration adress
-                labelsToAdress[key] = make_tuple("", to_string(instructionIndex));
+                // Left is the declaration address, right is the vector of call addresses
+                labelsToAdress[key] = make_tuple(to_string(instructionIndex), vector<string>{});
             }
             else
             {
-                get<1>(labelsToAdress[key]) = to_string(instructionIndex);
+                get<0>(labelsToAdress[key]) = to_string(instructionIndex);
             }
         }
         // Check if the line contains an instruction (not a label)
-        else if (strLine.find(' ') != string::npos  // space is for instructions
-            && strLine.find("push") == string::npos // we don't need push
-            && strLine.find("pop") == string::npos // we don't need pop
-            && strLine.find('@') == string::npos) // @ is for comments, they often contain spaces too                                              
-        {                                            // so we need to filter them out
+        else if (regex_search(strLine, regex("\\s+"))  // space is for instructions
+            && !regex_search(strLine, regex("push"))// we don't need push
+            && !regex_search(strLine, regex("pop"))// we don't need pop
+            && !regex_search(strLine, regex("@"))) // @ is for comments, they often contain spaces too                                              
+        {                                  // so we need to filter them out
             lines.push_back(strLine);
 
             if(strLine.find(".") != string::npos && strLine.find(":") == string::npos)
             {
                 string key = strLine.substr(strLine.find("."), strLine.find(" ") - strLine.find("."));
                 key.erase(remove(key.begin(), key.end(), '\r'), key.end());
-                
                 if(labelsToAdress.find(key) == labelsToAdress.end())
                 {
-                    // Left is the declaration adress, right is the call adress
-                    labelsToAdress[key] = make_tuple(to_string(instructionIndex), "");
+                    // Left is the declaration address, right is the vector of call addresses
+                    labelsToAdress[key] = make_tuple("", vector<string>{to_string(instructionIndex)});
                 }
                 else
                 {
-                    get<0>(labelsToAdress[key]) = to_string(instructionIndex);
+                    get<1>(labelsToAdress[key]).push_back(to_string(instructionIndex));
                 }
             }
             instructionIndex++;
@@ -91,41 +94,22 @@ vector<string> FileParser::trim(vector<string> lines)
 {
     vector<string> trimmedLines;
     for(string &line : lines)
-    {
-        size_t start = line.find_first_not_of(" \t\n\r");
-        if(start == string::npos)
-        {
-            continue;
-        }
+    {        
+        line = regex_replace(line, regex("^\\s+|\\s+$"), "");
 
-        size_t last = line.find_last_not_of(" \t\n\r");
-        string trimmedLine = line.substr(start, last - start + 1);
+        line = regex_replace(line, regex(",(?=\\[)"), " ");
+        line = regex_replace(line, regex(","), "");
 
-        // The case of brackets being next to commas    
-        size_t pos = 0;
-        while ((pos = trimmedLine.find(',', pos)) != string::npos)
-        {
-            if (trimmedLine.find('[', pos) != string::npos)
-            {
-                trimmedLine.replace(pos, 1, " ");
-                pos += 1;
-            }
-            else
-            {
-                trimmedLine.replace(pos, 1, "");
-            }
-        }
+        line = regex_replace(line, regex("[\\[\\]]"), "");
 
-        trimmedLine.erase(remove(trimmedLine.begin(), trimmedLine.end(), '['), trimmedLine.end());
-        trimmedLine.erase(remove(trimmedLine.begin(), trimmedLine.end(), ']'), trimmedLine.end());
-        trimmedLine = regex_replace(trimmedLine, regex(" +"), " ");
-
-        trimmedLines.push_back(trimmedLine);
+        line = regex_replace(line, regex("\\s+"), " ");
+        if(!line.empty())
+            trimmedLines.push_back(line);
     }
     return trimmedLines;
 }
 
-map<string, tuple<string, string>> FileParser::getLabelsToAdress()
+map<string, tuple<string, vector<string>>> FileParser::getLabelsToAdress()
 {
     return this->labelsToAdress;
 }

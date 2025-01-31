@@ -40,7 +40,14 @@ int main(int argc, char **argv)
             if(!AssemblyUtils::isLabel(expression))
                 instructions.push_back(expression);
         }
-
+        vector<string> linesToWrite;
+        for(auto &label : parser->getLabelsToAdress())
+        {
+            string key = label.first;
+            string adress = get<0>(label.second);
+            vector<string> calls = get<1>(label.second);
+        }
+        map<string, int> labelsAdresses;
         for(int i = 0; i < instructions.size(); i++)
         {
             vector<string> expression = instructions.at(i);
@@ -72,20 +79,27 @@ int main(int argc, char **argv)
             {
                 instruction += "_register";
             }
-            
+            if(instruction == "b" || instruction == "bc")
+            {
+                if(labelsAdresses.find(expression.at(1)) == labelsAdresses.end())
+                {
+                    labelsAdresses[expression.at(1)] = 0;
+                }
+                else
+                {
+                    labelsAdresses[expression.at(1)]++;
+                }
+                string binary = assemblyParser->getBranchInstruction(instruction, expression, labelsAdresses[expression.at(1)]);
+                string hex = AssemblyUtils::binaryToHex(binary);
+                linesToWrite.push_back(hex);
+                continue;
+            }
             string binary = assemblyParser->getInstruction(instruction, expression);
             string hex = AssemblyUtils::binaryToHex(binary);
-            lines.at(i) = hex;
+            linesToWrite.push_back(hex);
         }
 
-        if(lines.size() > instructions.size())
-        {
-            for(int i = instructions.size(); i < lines.size(); i++)
-            {
-                lines.at(i) = "";
-            }
-        }
-        writer->writeToFile(lines);
+        writer->writeToFile(linesToWrite);
 
         delete parser;
         delete writer;

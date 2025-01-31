@@ -18,7 +18,7 @@ class AssemblyUtils
         static void populateOrderedList();
         static string getImmediate(string number, int bits);
         // The key is the label, the tuple contains its adress and the instruction adress
-        static string getLabelAdress(string label, map<string, tuple<string, string>> labels, int bits);
+        static string getLabelAdress(string label, int index, map<string, tuple<string, vector<string>>> labels, int bits);
         static string getRegister(string reg);
         static string getCondition(string condition);
         static bool isSP(vector<string> expression);

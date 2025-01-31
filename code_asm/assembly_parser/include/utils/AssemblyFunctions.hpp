@@ -13,10 +13,10 @@ using namespace std;
 class AssemblyFunctions
 {
     private:
-        static map<string, tuple<string, string>> labelsToAdress;
+        static map<string, tuple<string, vector<string>>> labelsToAdress;
     public:
-        static map<string, tuple<string, string>> getLabelsToAdress();
-        static void setLabelsToAdress(map<string, tuple<string, string>>);
+        static map<string, tuple<string, vector<string>>> getLabelsToAdress();
+        static void setLabelsToAdress(map<string, tuple<string, vector<string>>> labels);
         // Register functions
         static string lsls_imm5(vector<string>);
         static string lsrs_imm5(vector<string>);
@@ -57,8 +57,8 @@ class AssemblyFunctions
         static string sub_sp(vector<string>);
 
         // Branch functions
-        static string bc(vector<string>);
-        static string b(vector<string>);
+        static string bc(vector<string>, int);
+        static string b(vector<string>, int);
 
 
 

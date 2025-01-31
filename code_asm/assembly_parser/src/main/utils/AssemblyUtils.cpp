@@ -76,16 +76,15 @@ string AssemblyUtils::getCondition(string condition)
     throw new runtime_error("Condition not found");
 }
 
-string AssemblyUtils::getLabelAdress(string label, map<string, tuple<string, string>> labelsToAdress, int bits)
+string AssemblyUtils::getLabelAdress(string label, int index, map<string, tuple<string, vector<string>>> labelsToAdress, int bits)
 {
     // Procedure : 
     // 1. Get the label adress from the map
     // 2. Subract the current instruction adress
-    // 3. Substract 1
+    // 3. Substract 3
     // 4. Convert the result to BINARY COMPLEMENT TWO
-
-    string labelAdress = get<1>(labelsToAdress[label]);
-    string instructionAdress = get<0>(labelsToAdress[label]);
+    string labelAdress = get<0>(labelsToAdress[label]);
+    string instructionAdress = get<1>(labelsToAdress[label]).at(index);
     int labelAdressInt = atoi(labelAdress.c_str());
     int instructionAdressInt = atoi(instructionAdress.c_str());
     int result = labelAdressInt - instructionAdressInt - 3;
@@ -116,8 +115,16 @@ bool AssemblyUtils::isLoadStore(vector<string> expression)
 
 bool AssemblyUtils::isImmediate(vector<string> expression)
 {
-    return expression.at(expression.size() - 1).substr(0, 1) == "#" 
-        && expression.at(0) != "ld" && expression.at(0) != "st" && expression.at(0) != "rsbs";
+    if (!expression.empty() && expression[0] == "rsbs") {
+        return false;
+    }
+
+    for (const string& token : expression) {
+        if (token.substr(0, 1) == "#") {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool AssemblyUtils::isConditionnal(vector<string> expression)

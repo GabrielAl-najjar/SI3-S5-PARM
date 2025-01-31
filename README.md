@@ -2,6 +2,24 @@
 
 Voir la documentation en PDF dans le dossier `doc`.
 
+## Parser d'assembleur ARM
+
+Le parser a été écrit en C++, cmake est utilisé pour la compilation. 
+Pour le compiler, il suffit de se placer dans le dossier `assembly_parser` situé dans le dossier `code_asm` et de lancer les commandes suivantes :
+```bash
+cmake .
+```
+dans le but de générer les fichiers de configuration de cmake, puis
+```bash
+make
+```
+pour compiler le programme.
+
+Enfin le programme peut être lancé avec la commande suivante :
+```bash
+./assembly_parser <fichier_asm>
+```
+
 ## En-têtes C
 
 | Programme | Description |

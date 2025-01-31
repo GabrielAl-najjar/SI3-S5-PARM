@@ -15,6 +15,7 @@ class AssemblyParser
 {
     private:
         map<string, function<string(vector<string>)>> instructions;
+        map<string, function<string(vector<string>, int)>> branchInstructions;
         map<string, tuple<string, string>> labelsToAdress;
         void parseLabels(vector<string> lines, vector<string> startLabelsAdresses,vector<string> instructionsAdresses);
     public:
@@ -22,6 +23,7 @@ class AssemblyParser
         ~AssemblyParser();
         vector<string> splitExpression(string expression);
         map<string, tuple<string, string>> getLabelsToAdress();
+        string getBranchInstruction(string instruction, vector<string> expression, int index);
         string getInstruction(string instruction, vector<string> expression);
         
 };

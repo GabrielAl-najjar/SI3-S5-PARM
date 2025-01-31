@@ -14,13 +14,13 @@ class FileParser
 {
     private:
         FILE *file;
-        map<string, tuple<string, string>> labelsToAdress;
+        map<string, tuple<string, vector<string>>> labelsToAdress;
     public:
         FileParser(FILE *file);
         ~FileParser();
         vector<string> parseImportantLines(); 
         vector<string> trim(vector<string> lines);
-        map<string, tuple<string, string>> getLabelsToAdress();
+        map<string, tuple<string, vector<string>>> getLabelsToAdress();
 };
 
 #endif

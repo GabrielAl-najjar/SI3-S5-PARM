@@ -23,7 +23,7 @@ void FileWriter::writeToFile(vector<string> linesToWrite)
     ofstream file(this->path);
     if(file.is_open())
     {
-        string header = "V2.0 raw\n";
+        string header = "v2.0 raw\n";
         file << header;
         string concat = "";
         for (string line : linesToWrite)
