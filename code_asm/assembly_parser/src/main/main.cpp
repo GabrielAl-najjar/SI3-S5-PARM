@@ -39,12 +39,6 @@ int main(int argc, char **argv)
                 instructions.push_back(expression);
         }
         vector<string> linesToWrite;
-        for(auto &label : parser->getLabelsToAdress())
-        {
-            string key = label.first;
-            string adress = get<0>(label.second);
-            vector<string> calls = get<1>(label.second);
-        }
         map<string, int> labelsAdresses;
         for(int i = 0; i < instructions.size(); i++)
         {
