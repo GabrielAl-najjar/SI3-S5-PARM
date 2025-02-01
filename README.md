@@ -17,7 +17,7 @@ pour compiler le programme.
 
 Enfin le programme peut être lancé avec la commande suivante :
 ```bash
-./assembly_parser <fichier_asm>
+./out/assembly_parser <fichier_asm>
 ```
 
 ## En-têtes C

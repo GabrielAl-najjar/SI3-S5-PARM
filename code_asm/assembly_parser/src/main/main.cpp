@@ -30,8 +30,6 @@ int main(int argc, char **argv)
         
         AssemblyUtils::populateOrderedList();
         AssemblyParser *assemblyParser = new AssemblyParser(lines);
-    
-        AssemblyFunctions::setLabelsToAdress(parser->getLabelsToAdress());
         
         vector<vector<string>> instructions;
         for(int i = 0; i < lines.size(); i++)
@@ -89,7 +87,7 @@ int main(int argc, char **argv)
                 {
                     labelsAdresses[expression.at(1)]++;
                 }
-                string binary = assemblyParser->getBranchInstruction(instruction, expression, labelsAdresses[expression.at(1)]);
+                string binary = assemblyParser->getBranchInstruction(instruction, expression, parser->getLabelsToAdress(), labelsAdresses[expression.at(1)]);
                 string hex = AssemblyUtils::binaryToHex(binary);
                 linesToWrite.push_back(hex);
                 continue;

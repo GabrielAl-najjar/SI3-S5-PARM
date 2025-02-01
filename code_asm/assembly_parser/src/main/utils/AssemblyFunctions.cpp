@@ -6,18 +6,6 @@
 
 using namespace std;
 
-map<string, tuple<string, vector<string>>> AssemblyFunctions::labelsToAdress;
-
-map<string, tuple<string, vector<string>>> AssemblyFunctions::getLabelsToAdress()
-{
-    return AssemblyFunctions::labelsToAdress;
-}
-
-void AssemblyFunctions::setLabelsToAdress(map<string, tuple<string, vector<string>>> labels)
-{
-    AssemblyFunctions::labelsToAdress = labels;
-}
-
 string AssemblyFunctions::lsls_imm5(vector<string> expression)
 {
     string rd = AssemblyUtils::getRegister(expression[1]);
@@ -260,15 +248,15 @@ string AssemblyFunctions::sub_sp(vector<string> expression)
     return "101100001" + imm7;
 }
 
-string AssemblyFunctions::bc(vector<string> expression, int index)
+string AssemblyFunctions::bc(vector<string> expression, map<string, tuple<string, vector<string>>> labels, int index)
 {
     string condition = AssemblyUtils::getCondition(expression[0]);
-    string imm8 = AssemblyUtils::getLabelAdress(expression[1], index, AssemblyFunctions::getLabelsToAdress(), 8);
+    string imm8 = AssemblyUtils::getLabelAdress(expression[1], labels, index, 8);
     return "1101" + condition + imm8;
 }
 
-string AssemblyFunctions::b(vector<string> expression, int index)
+string AssemblyFunctions::b(vector<string> expression, map<string, tuple<string, vector<string>>> labels, int index)
 {
-    string imm11 = AssemblyUtils::getLabelAdress(expression[1], index, AssemblyFunctions::getLabelsToAdress(), 11);
+    string imm11 = AssemblyUtils::getLabelAdress(expression[1], labels, index, 11);
     return "11100" + imm11;
 }

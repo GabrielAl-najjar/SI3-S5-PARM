@@ -34,8 +34,8 @@ AssemblyParser::AssemblyParser(vector<string> lines)
     instructions["ldr_reg"] = bind(&AssemblyFunctions::ldr_reg, placeholders::_1);
     instructions["add_sp"] = bind(&AssemblyFunctions::add_sp, placeholders::_1);
     instructions["sub_sp"] = bind(&AssemblyFunctions::sub_sp, placeholders::_1);
-    branchInstructions["bc"] = bind(&AssemblyFunctions::bc, placeholders::_1, placeholders::_2);
-    branchInstructions["b"] = bind(&AssemblyFunctions::b, placeholders::_1, placeholders::_2);
+    branchInstructions["bc"] = bind(&AssemblyFunctions::bc, placeholders::_1, placeholders::_2, placeholders::_3);
+    branchInstructions["b"] = bind(&AssemblyFunctions::b, placeholders::_1, placeholders::_2, placeholders::_3);
 }
 
 AssemblyParser::~AssemblyParser()
@@ -58,18 +58,14 @@ vector<string> AssemblyParser::splitExpression(string expression)
     return result;
 }
 
-map<string, tuple<string, string>> AssemblyParser::getLabelsToAdress()
-{
-    return labelsToAdress;
-}
-string AssemblyParser::getBranchInstruction(string instruction, vector<string> expression, int index)
+string AssemblyParser::getBranchInstruction(string instruction, vector<string> expression, map<string, tuple<string, vector<string>>> labels, int index)
 {
     if(branchInstructions.find(instruction) == branchInstructions.end())
     {
         cerr << "Error : instruction " << instruction << " not found" << endl;
         throw runtime_error("Instruction not found");
     }
-    return branchInstructions[instruction](expression, index);
+    return branchInstructions[instruction](expression, labels, index);
 }
 
 string AssemblyParser::getInstruction(string instruction, vector<string> expression)
@@ -77,7 +73,7 @@ string AssemblyParser::getInstruction(string instruction, vector<string> express
     if(instructions.find(instruction) == instructions.end())
     {
         cerr << "Error : instruction " << instruction << " not found" << endl;
-        throw runtime_error("Instruction not found");
+        throw runtime_error("The instruction " + instruction + " was not found or is not implemented");
     }
     return instructions[instruction](expression);
 }

@@ -76,7 +76,7 @@ string AssemblyUtils::getCondition(string condition)
     throw new runtime_error("Condition not found");
 }
 
-string AssemblyUtils::getLabelAdress(string label, int index, map<string, tuple<string, vector<string>>> labelsToAdress, int bits)
+string AssemblyUtils::getLabelAdress(string label, map<string, tuple<string, vector<string>>> labelsToAdress, int index, int bits)
 {
     // Procedure : 
     // 1. Get the label adress from the map
